@@ -83,14 +83,14 @@ const ImmersiveScrollGallery = ({ images = DEFAULT_IMAGES, className = "" }) => 
               <div className={`isg-card isg-card-pos-${index} ${isCenter ? "isg-center-text-card" : "isg-image-card"}`}>
                 {isCenter ? (
                   <div className="isg-center-content">
-                    <span className="isg-center-tag">MAISON JHUMKA</span>
+                    <span className="isg-center-tag">Yall's Elegance</span>
                     <h2 className="isg-center-heading">Why Choose Us?</h2>
                     <div className="isg-center-decorator"></div>
                   </div>
                 ) : (
                   <img
                     src={pic.src}
-                    alt={`Luxury Jhumka ${index}`}
+                    alt={`Luxury Yaal's Elegance ${index}`}
                     className="isg-card-img"
                   />
                 )}
@@ -130,7 +130,7 @@ const ImmersiveScrollGallery = ({ images = DEFAULT_IMAGES, className = "" }) => 
                 <div className="wcu-item mb-5">
                   <div className="wcu-indicator">03</div>
                   <h4 className="wcu-item-title">Artisan Handcrafted</h4>
-                  <p className="wcu-item-desc">No mass production. Every Jhumka is made-to-order by hands devoted to the preservation of classic Indian craft.</p>
+                  <p className="wcu-item-desc">No mass production. Every Yaal's Elegance is made-to-order by hands devoted to the preservation of classic Indian craft.</p>
                 </div>
                 
                 <div className="wcu-item">

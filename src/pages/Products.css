@@ -170,14 +170,14 @@
 /* Image Frame */
 .product-image-frame {
   position: relative;
-  width: 100%;
-  height: 280px;
+  width: calc(100% - 12px);
+  aspect-ratio: 1 / 1;
+  height: auto;
   overflow: hidden;
   background: #fcf9f8;
   border-radius: 22px 22px 0 0;
   /* Arched style */
   margin: 6px;
-  width: calc(100% - 12px);
 }
 
 .product-card-img {
@@ -280,9 +280,10 @@
   line-height: 1.6;
   margin: 12px 0 20px;
   display: -webkit-box;
-
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  height: 43px;
 }
 
 .border-top-glow {

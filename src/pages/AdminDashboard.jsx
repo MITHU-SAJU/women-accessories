@@ -23,6 +23,7 @@ function AdminDashboard() {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   // Authenticate check
   useEffect(() => {
@@ -31,7 +32,7 @@ function AdminDashboard() {
     }
   }, [adminAuth, navigate]);
 
-  const handleAddProduct = (e) => {
+  const handleAddProduct = async (e) => {
     e.preventDefault();
     setSuccessMessage("");
 
@@ -54,25 +55,34 @@ function AdminDashboard() {
       description
     };
 
-    addProduct(newProduct);
-    setSuccessMessage("Piece added to the Maison catalog successfully!");
+    setIsFormSubmitting(true);
+    const result = await addProduct(newProduct);
+    setIsFormSubmitting(false);
 
-    // Clear form
-    setName("");
-    setPrice("");
-    setCategory(CATEGORIES[0]);
-    setImage("");
-    setDescription("");
+    if (result.success) {
+      setSuccessMessage("Piece added to the Maison catalog successfully!");
+      // Clear form
+      setName("");
+      setPrice("");
+      setCategory(CATEGORIES[0]);
+      setImage("");
+      setDescription("");
 
-    // Clear success message after delay
-    setTimeout(() => {
-      setSuccessMessage("");
-    }, 3000);
+      // Clear success message after delay
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+    } else {
+      alert(`Failed to add product: ${result.error || "Unknown error"}`);
+    }
   };
 
-  const handleDelete = (id, productName) => {
+  const handleDelete = async (id, productName) => {
     if (window.confirm(`Are you sure you want to retire "${productName}" from the catalog?`)) {
-      deleteProduct(id);
+      const result = await deleteProduct(id);
+      if (!result.success) {
+        alert(`Failed to delete product: ${result.error || "Unknown error"}`);
+      }
     }
   };
 
@@ -89,7 +99,7 @@ function AdminDashboard() {
         {/* Header Panel */}
         <div className="dashboard-header d-flex flex-wrap align-items-center justify-content-between mb-5 p-4 shadow-sm">
           <div>
-            <span className="dashboard-pill">MAISON JHUMKA PORTAL</span>
+            <span className="dashboard-pill">Yall's Elegance PORTAL</span>
             <h1 className="dashboard-title mt-2">Maison Catalog Administration</h1>
           </div>
           <button onClick={handleLogout} className="btn logout-btn d-flex align-items-center gap-2">
@@ -194,9 +204,16 @@ function AdminDashboard() {
                 <button
                   type="submit"
                   className="btn admin-submit-btn w-100 d-flex align-items-center justify-content-center gap-2"
+                  disabled={isFormSubmitting}
                 >
-                  <PlusCircle size={18} />
-                  Add to Store Catalog
+                  {isFormSubmitting ? (
+                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  ) : (
+                    <>
+                      <PlusCircle size={18} />
+                      Add to Store Catalog
+                    </>
+                  )}
                 </button>
               </form>
             </div>

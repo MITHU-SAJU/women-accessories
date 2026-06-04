@@ -20,21 +20,19 @@ function AdminLogin() {
     }
   }, [adminAuth, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    // Artificial tiny delay for premium feel
-    setTimeout(() => {
-      const success = loginAdmin(username, password);
-      setLoading(false);
-      if (success) {
-        navigate("/admin");
-      } else {
-        setError("Invalid administrative credentials. Please try again.");
-      }
-    }, 800);
+    const result = await loginAdmin(username, password);
+    setLoading(false);
+    
+    if (result.success) {
+      navigate("/admin");
+    } else {
+      setError(result.error || "Invalid administrative credentials. Please try again.");
+    }
   };
 
   return (
@@ -49,7 +47,7 @@ function AdminLogin() {
             <ShieldLock size={14} />
             SECURE ACCESS
           </span>
-          <h2 className="admin-brand mt-2">JHUMKA</h2>
+          <h2 className="admin-brand mt-2">Yaal's Elegance</h2>
           <p className="admin-subtitle">Maison Portal Entry</p>
         </div>
 

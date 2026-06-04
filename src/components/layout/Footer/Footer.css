@@ -8,9 +8,10 @@
 .footer-logo {
   font-family: 'Playfair Display', serif;
   font-size: 28px;
-  letter-spacing: 8px;
+  letter-spacing: 6px;
   color: #745a34;
   margin-bottom: 20px;
+  text-transform: uppercase;
 }
 
 .footer-about {
@@ -53,6 +54,7 @@
   display: flex;
   gap: 10px;
   margin-top: 15px;
+  max-width: 320px;
 }
 
 .newsletter-box input {
@@ -89,10 +91,6 @@
   border-top: 1px solid rgba(116, 90, 52, 0.08);
   margin-top: 60px;
   padding-top: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
   font-size: 13px;
   color: #777;
 }
@@ -112,14 +110,26 @@
   color: #745a34;
 }
 
-@media(max-width: 768px) {
+/* Mobile-First Responsive Adjustments */
+@media(max-width: 991px) {
   .footer-section {
     padding: 60px 0 30px;
+    text-align: center;
   }
-  
+
+  .footer-section h5 {
+    margin-bottom: 15px;
+    margin-top: 10px;
+  }
+
+  .newsletter-box {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .footer-bottom {
-    flex-direction: column;
-    gap: 15px;
-    align-items: flex-start;
+    margin-top: 40px;
+    padding-top: 20px;
+    text-align: center;
   }
 }

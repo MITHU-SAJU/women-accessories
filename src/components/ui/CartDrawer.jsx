@@ -17,7 +17,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
     if (cart.length === 0) return;
 
     const phoneNumber = "+919876543210"; // Default contact phone number
-    let message = "Hi Jhumka, I would like to place an order for the following items:\n\n";
+    let message = "Hi Yaal's Elegance, I would like to place an order for the following items:\n\n";
 
     cart.forEach((item, index) => {
       message += `${index + 1}. *${item.product.name}* (Qty: ${item.quantity}) - ₹${(item.product.price * item.quantity).toLocaleString("en-IN")}\n`;

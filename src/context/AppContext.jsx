@@ -1,10 +1,10 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import { supabase, isSupabaseConfigured } from "../config/supabaseClient";
 
 const AppContext = createContext();
 
 const DEFAULT_PRODUCTS = [
   {
-    id: 1,
     name: "Aura Luxe Jhumka",
     price: 89999,
     category: "Bespoke Luxe",
@@ -13,7 +13,6 @@ const DEFAULT_PRODUCTS = [
     rating: 4.9
   },
   {
-    id: 2,
     name: "Bridal Signature Drops",
     price: 145000,
     category: "Bridal Signature",
@@ -22,7 +21,6 @@ const DEFAULT_PRODUCTS = [
     rating: 5.0
   },
   {
-    id: 3,
     name: "Heritage Gold Chandelier",
     price: 120000,
     category: "Heritage Gold",
@@ -31,7 +29,6 @@ const DEFAULT_PRODUCTS = [
     rating: 4.8
   },
   {
-    id: 4,
     name: "Royal Pearl Cluster",
     price: 65000,
     category: "Royal Pearl",
@@ -40,7 +37,6 @@ const DEFAULT_PRODUCTS = [
     rating: 4.7
   },
   {
-    id: 5,
     name: "Classic Antique Jhumka",
     price: 78000,
     category: "Classic Antique",
@@ -49,7 +45,6 @@ const DEFAULT_PRODUCTS = [
     rating: 4.8
   },
   {
-    id: 6,
     name: "Pearl & Emerald Chandbalis",
     price: 95000,
     category: "Bespoke Luxe",
@@ -60,11 +55,17 @@ const DEFAULT_PRODUCTS = [
 ];
 
 export const AppProvider = ({ children }) => {
-  // Load products from localStorage or use defaults
+  // Load products: Fallback uses localStorage immediately
   const [products, setProducts] = useState(() => {
-    const saved = localStorage.getItem("jhumka_products");
-    return saved ? JSON.parse(saved) : DEFAULT_PRODUCTS;
+    if (!isSupabaseConfigured) {
+      const saved = localStorage.getItem("jhumka_products");
+      // Add local ID if defaults are loaded
+      return saved ? JSON.parse(saved) : DEFAULT_PRODUCTS.map((p, idx) => ({ ...p, id: idx + 1 }));
+    }
+    return DEFAULT_PRODUCTS; // temporary, will be overwritten by fetch in useEffect
   });
+
+  const [loadingProducts, setLoadingProducts] = useState(isSupabaseConfigured);
 
   // Load cart from localStorage
   const [cart, setCart] = useState(() => {
@@ -72,15 +73,63 @@ export const AppProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Check admin auth state from sessionStorage
+  // Check admin auth state from sessionStorage or Supabase session
   const [adminAuth, setAdminAuth] = useState(() => {
     return sessionStorage.getItem("jhumka_admin_auth") === "true";
   });
 
-  // Save products to localStorage whenever they change
+  // Sync products from Supabase if configured
   useEffect(() => {
-    localStorage.setItem("jhumka_products", JSON.stringify(products));
-  }, [products]);
+    if (!isSupabaseConfigured) return;
+
+    const fetchProducts = async () => {
+      try {
+        setLoadingProducts(true);
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .order("id", { ascending: true });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          setProducts(data);
+        } else {
+          // Database is connected but empty. Let's auto-seed!
+          console.log("Supabase products table is empty. Seeding defaults...");
+          const { error: seedError } = await supabase
+            .from("products")
+            .insert(DEFAULT_PRODUCTS);
+
+          if (seedError) {
+            console.error("Seeding failed:", seedError);
+          } else {
+            const { data: seededData } = await supabase
+              .from("products")
+              .select("*")
+              .order("id", { ascending: true });
+            if (seededData) setProducts(seededData);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load products from Supabase database:", err);
+      } finally {
+        setLoadingProducts(false);
+      }
+    };
+
+    fetchProducts();
+
+    // Check if Supabase already has a user session
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data?.session) {
+        setAdminAuth(true);
+        sessionStorage.setItem("jhumka_admin_auth", "true");
+      }
+    };
+    checkSession();
+  }, []);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
@@ -88,37 +137,117 @@ export const AppProvider = ({ children }) => {
   }, [cart]);
 
   // Admin authentication handlers
-  const loginAdmin = (username, password) => {
-    if (username.toLowerCase() === "admin" && password === "admin") {
-      setAdminAuth(true);
-      sessionStorage.setItem("jhumka_admin_auth", "true");
-      return true;
+  const loginAdmin = async (email, password) => {
+    if (isSupabaseConfigured) {
+      try {
+        // Authenticate with Supabase Auth
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email.includes("@") ? email : `${email}@jhumka.com`, // support using short email or simple username
+          password,
+        });
+
+        if (error) throw error;
+
+        if (data?.user) {
+          setAdminAuth(true);
+          sessionStorage.setItem("jhumka_admin_auth", "true");
+          return { success: true };
+        }
+      } catch (err) {
+        console.error("Supabase login error:", err);
+        return { success: false, error: err.message };
+      }
+    } else {
+      // Fallback Demo login
+      if (email.toLowerCase() === "admin" && password === "admin") {
+        setAdminAuth(true);
+        sessionStorage.setItem("jhumka_admin_auth", "true");
+        return { success: true };
+      }
+      return { success: false, error: "Invalid administrative credentials. (Use admin / admin in Demo mode)" };
     }
-    return false;
   };
 
-  const logoutAdmin = () => {
+  const logoutAdmin = async () => {
+    if (isSupabaseConfigured) {
+      await supabase.auth.signOut();
+    }
     setAdminAuth(false);
     sessionStorage.removeItem("jhumka_admin_auth");
   };
 
   // Product management handlers
-  const addProduct = (newProduct) => {
-    setProducts((prev) => [
-      ...prev,
-      {
+  const addProduct = async (newProduct) => {
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase
+          .from("products")
+          .insert([
+            {
+              name: newProduct.name,
+              price: Number(newProduct.price),
+              category: newProduct.category,
+              image: newProduct.image,
+              description: newProduct.description,
+              rating: 5.0
+            }
+          ])
+          .select();
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          setProducts((prev) => [...prev, data[0]]);
+          return { success: true };
+        }
+      } catch (err) {
+        console.error("Failed to add product to Supabase:", err);
+        return { success: false, error: err.message };
+      }
+    } else {
+      // Local Storage Fallback
+      const newProdObj = {
         ...newProduct,
-        id: Date.now(), // Generate unique ID
+        id: Date.now(),
         price: Number(newProduct.price),
         rating: 5.0
-      }
-    ]);
+      };
+      setProducts((prev) => {
+        const updated = [...prev, newProdObj];
+        localStorage.setItem("jhumka_products", JSON.stringify(updated));
+        return updated;
+      });
+      return { success: true };
+    }
   };
 
-  const deleteProduct = (id) => {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
-    // Also remove from cart if it is there
-    setCart((prev) => prev.filter((item) => item.product.id !== id));
+  const deleteProduct = async (id) => {
+    if (isSupabaseConfigured) {
+      try {
+        const { error } = await supabase
+          .from("products")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+
+        setProducts((prev) => prev.filter((p) => p.id !== id));
+        setCart((prev) => prev.filter((item) => item.product.id !== id));
+        return { success: true };
+      } catch (err) {
+        console.error("Failed to delete product from Supabase:", err);
+        return { success: false, error: err.message };
+      }
+    } else {
+      // Local Storage Fallback
+      setProducts((prev) => {
+        const updated = prev.filter((p) => p.id !== id);
+        localStorage.setItem("jhumka_products", JSON.stringify(updated));
+        return updated;
+      });
+      setCart((prev) => prev.filter((item) => item.product.id !== id));
+      return { success: true };
+    }
   };
 
   // Shopping cart handlers
@@ -159,8 +288,10 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         products,
+        loadingProducts,
         cart,
         adminAuth,
+        isSupabaseConfigured,
         loginAdmin,
         logoutAdmin,
         addProduct,

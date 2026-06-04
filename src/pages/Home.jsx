@@ -5,6 +5,7 @@ import { StarFill } from "react-bootstrap-icons";
 import ScrollSplitCard from "../components/ui/scroll-split-card";
 import WhyChooseUsDemo from "../components/ui/why-choose-us-demo";
 import heritage from "../assets/heritage.jpg";
+import mainlogo from "../assets/mainlogo.png";
 
 const categories = [
   {
@@ -42,8 +43,8 @@ const Home = () => {
       {/* HERO SECTION */}
       <section className="hero-section container-fluid">
         {/* Floating Background */}
-        <div className="floating-circle one"></div>
-        <div className="floating-circle two"></div>
+        {/* <div className="floating-circle one"></div>
+        <div className="floating-circle two"></div> */}
 
         <div className="container-fluid">
           <div className="row align-items-center min-vh-100">
@@ -104,22 +105,13 @@ const Home = () => {
 
               <div className="hero-image-wrapper">
                 <img
-                  src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=1200&auto=format&fit=crop"
+                  src={mainlogo}
                   alt="Luxury Jewelry"
-                  className="hero-image"
+                  className="hero-image mb-3"
                 />
+                <h1 className="logo-title">" Crafted to Complement Your Grace "</h1>
               </div>
 
-              {/* FLOATING CARD */}
-              <div className="floating-card left-card">
-                <small>CURATED</small>
-                <h4>Best Seller</h4>
-              </div>
-
-              <div className="floating-card right-card">
-                <small>JUST ARRIVED</small>
-                <h4>Aura Luxe</h4>
-              </div>
             </div>
 
             {/* RIGHT FEATURES */}
@@ -173,7 +165,7 @@ const Home = () => {
 {
 title: "Curated Premium Collections",
 description:
-"Explore a carefully selected range of elegant Jhumkas designed to complement every style, from traditional celebrations to modern fashion.",
+"Explore a carefully selected range of elegant Yaal's Elegances designed to complement every style, from traditional celebrations to modern fashion.",
 bgColor: "#F8F4EF",
 textColor: "#2D2D2D"
 },
@@ -195,14 +187,14 @@ textColor: "#FFFFFF"
 
       />
 
-      {/* MAISON COLLECTIONS SECTION */}
+      {/* Yall's Elegance SECTION */}
       <section className="categories-section py-5">
         <div className="container-fluid px-lg-5 px-4 text-center">
           <div className="heritage-badge mb-3">
             <span></span>
             DISCOVER THE MAISON
           </div>
-          <h2 className="section-title mb-3">Maison Collections</h2>
+          <h2 className="section-title mb-3">Yall's Elegance</h2>
           <p className="section-subtitle mx-auto mb-5">
             Swipe left or right to explore our core categories.
           </p>
@@ -220,6 +212,7 @@ textColor: "#FFFFFF"
                       src={category.image}
                       alt={category.name}
                       className="circle-image"
+                      loading="lazy"
                     />
                     <div className="circle-overlay">
                       <span className="circle-overlay-text">Explore</span>

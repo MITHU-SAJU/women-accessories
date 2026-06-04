@@ -36,6 +36,8 @@ const ScrollSplitCard = ({ containerRef, imageSrc, cards = [] }) => {
     containerMaxWidth = 290;
   }
 
+  const isMobile = windowWidth <= 768;
+
   // Track the scroll of the scroll-split track component
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -43,8 +45,7 @@ const ScrollSplitCard = ({ containerRef, imageSrc, cards = [] }) => {
     offset: ["start start", "end end"],
   });
 
-  // 1. Horizontal Split translations (progress: 0.0 -> 0.45)
-  // Left card moves left, center card stays, right card moves right
+  // 1. Horizontal Split translations (Desktop)
   const xLeft = useTransform(
     scrollYProgress,
     [0, 0.45, 1.0],
@@ -57,22 +58,36 @@ const ScrollSplitCard = ({ containerRef, imageSrc, cards = [] }) => {
     ["0px", `${translateDistance}px`, `${translateDistance}px`]
   );
 
-  // 2. Staggered 3D Flip rotations (progress: 0.4 -> 0.85)
-  // Card 1 flips first, then Card 2, then Card 3
+  // 2. 3D Flip rotations (Desktop)
   const rotateYLeft = useTransform(scrollYProgress, [0.38, 0.68, 1.0], [0, 180, 180]);
   const rotateYMiddle = useTransform(scrollYProgress, [0.46, 0.76, 1.0], [0, 180, 180]);
   const rotateYRight = useTransform(scrollYProgress, [0.54, 0.84, 1.0], [0, 180, 180]);
 
-  // 3. Border radius transformations (progress: 0.0 -> 0.2)
-  // As cards split, their non-rounded corners round up to 16px
+  // 3. Mobile Animations: One-by-One Staggered Slide + Fade + Flip
+  // Card 1
+  const yMobile1 = useTransform(scrollYProgress, [0.0, 0.20], [60, 0]);
+  const opacityMobile1 = useTransform(scrollYProgress, [0.0, 0.15], [0, 1]);
+  const rotateMobile1 = useTransform(scrollYProgress, [0.22, 0.42, 1.0], [0, 180, 180]);
+
+  // Card 2
+  const yMobile2 = useTransform(scrollYProgress, [0.26, 0.46], [60, 0]);
+  const opacityMobile2 = useTransform(scrollYProgress, [0.26, 0.41], [0, 1]);
+  const rotateMobile2 = useTransform(scrollYProgress, [0.48, 0.68, 1.0], [0, 180, 180]);
+
+  // Card 3
+  const yMobile3 = useTransform(scrollYProgress, [0.52, 0.72], [60, 0]);
+  const opacityMobile3 = useTransform(scrollYProgress, [0.52, 0.67], [0, 1]);
+  const rotateMobile3 = useTransform(scrollYProgress, [0.74, 0.94, 1.0], [0, 180, 180]);
+
+  // 4. Border radius transformations (Desktop only)
   const trLeftRadius = useTransform(scrollYProgress, [0, 0.2], [0, 16]);
   const middleRadius = useTransform(scrollYProgress, [0, 0.2], [0, 16]);
   const tlRightRadius = useTransform(scrollYProgress, [0, 0.2], [0, 16]);
 
-  // 4. Scroll down indicator opacity (progress: 0.0 -> 0.2)
+  // 5. Scroll down indicator opacity
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
-  // 5. Bottom text CTA fade and slide up (progress: 0.8 -> 0.98)
+  // 6. Bottom text CTA fade and slide up
   const ctaOpacity = useTransform(scrollYProgress, [0.78, 0.95], [0, 1]);
   const ctaY = useTransform(scrollYProgress, [0.78, 0.95], [30, 0]);
 
@@ -120,35 +135,45 @@ const ScrollSplitCard = ({ containerRef, imageSrc, cards = [] }) => {
         </motion.div>
 
         {/* Cards Outer Layout */}
-        <div className="ssc-container" style={{ maxWidth: `${containerMaxWidth}px` }}>
+        <div className="ssc-container" style={isMobile ? undefined : { maxWidth: `${containerMaxWidth}px` }}>
           {cards.map((card, i) => {
             // Determine separate animation values for each card index
-            let xValue, rotateYValue, borderRadiusStyle;
+            let xValue, yValue, opacityValue, rotateYValue, borderRadiusStyle;
 
-            if (i === 0) {
-              xValue = xLeft;
-              rotateYValue = rotateYLeft;
-              borderRadiusStyle = {
-                borderTopLeftRadius: "16px",
-                borderBottomLeftRadius: "16px",
-                borderTopRightRadius: trLeftRadius,
-                borderBottomRightRadius: trLeftRadius,
-              };
-            } else if (i === 1) {
-              xValue = xMiddle;
-              rotateYValue = rotateYMiddle;
-              borderRadiusStyle = {
-                borderRadius: middleRadius,
-              };
+            if (isMobile) {
+              borderRadiusStyle = { borderRadius: "16px" };
+              xValue = "0px";
+              yValue = "0px";
+              opacityValue = 1.0;
+              rotateYValue = 180;
             } else {
-              xValue = xRight;
-              rotateYValue = rotateYRight;
-              borderRadiusStyle = {
-                borderTopLeftRadius: tlRightRadius,
-                borderBottomLeftRadius: tlRightRadius,
-                borderTopRightRadius: "16px",
-                borderBottomRightRadius: "16px",
-              };
+              yValue = "0px";
+              opacityValue = 1.0;
+              if (i === 0) {
+                xValue = xLeft;
+                rotateYValue = rotateYLeft;
+                borderRadiusStyle = {
+                  borderTopLeftRadius: "16px",
+                  borderBottomLeftRadius: "16px",
+                  borderTopRightRadius: trLeftRadius,
+                  borderBottomRightRadius: trLeftRadius,
+                };
+              } else if (i === 1) {
+                xValue = xMiddle;
+                rotateYValue = rotateYMiddle;
+                borderRadiusStyle = {
+                  borderRadius: middleRadius,
+                };
+              } else {
+                xValue = xRight;
+                rotateYValue = rotateYRight;
+                borderRadiusStyle = {
+                  borderTopLeftRadius: tlRightRadius,
+                  borderBottomLeftRadius: tlRightRadius,
+                  borderTopRightRadius: "16px",
+                  borderBottomRightRadius: "16px",
+                };
+              }
             }
 
             return (
@@ -157,6 +182,8 @@ const ScrollSplitCard = ({ containerRef, imageSrc, cards = [] }) => {
                 className="ssc-card-container"
                 style={{
                   x: xValue,
+                  y: yValue,
+                  opacity: opacityValue,
                   rotateY: rotateYValue,
                   ...borderRadiusStyle,
                 }}
@@ -167,7 +194,19 @@ const ScrollSplitCard = ({ containerRef, imageSrc, cards = [] }) => {
                     className="ssc-card-image"
                     style={{
                       backgroundImage: `url(${imageSrc})`,
-                      left: `${-i * 100}%`,
+                      ...(isMobile
+                        ? {
+                            top: `${-i * 100}%`,
+                            left: 0,
+                            width: "100%",
+                            height: "300%",
+                          }
+                        : {
+                            top: 0,
+                            left: `${-i * 100}%`,
+                            width: "300%",
+                            height: "100%",
+                          }),
                     }}
                   />
                   <div className="ssc-card-overlay" />

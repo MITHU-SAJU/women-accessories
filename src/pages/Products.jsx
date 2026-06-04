@@ -50,7 +50,7 @@ function Products() {
   // Handle Single WhatsApp Buy Now
   const handleBuyNow = (product) => {
     const phoneNumber = "+919876543210";
-    const message = `Hi Jhumka, I am interested in purchasing the *${product.name}* (${product.category}) for ₹${product.price.toLocaleString("en-IN")}.\n\nPlease check availability. Thank you!`;
+    const message = `Hi Yaal's Elegance, I am interested in purchasing the *${product.name}* (${product.category}) for ₹${product.price.toLocaleString("en-IN")}.\n\nPlease check availability. Thank you!`;
     const whatsappUrl = `https://wa.me/${phoneNumber.replace("+", "")}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
@@ -74,27 +74,10 @@ function Products() {
 
   return (
     <div className="products-page page-content">
-      {/* Page Header */}
-      <section className="products-hero-section">
-        <div className="container text-center">
-          <div className="heritage-badge mb-3">
-            <span></span>
-            EST. 1924 HERITAGE
-          </div>
-          <h1 className="products-title">The Maison Collection</h1>
-          <div className="decorator-line">
-            <span className="line-left"></span>
-            <span className="gold-diamond">◆</span>
-            <span className="line-right"></span>
-          </div>
-          <p className="products-subtitle mx-auto">
-            Discover our century-old legacy of luxury Jhumkas. Each piece is hand-sculpted by master artisans to adorn you in timeless grace.
-          </p>
-        </div>
-      </section>
+    
 
       {/* Filters & Grid Section */}
-      <section className="catalog-section container py-5">
+      <section className="catalog-section container-fluid">
         {/* Controls Panel */}
         <div className="controls-panel mb-5">
           <div className="row g-4 align-items-center">
@@ -170,63 +153,74 @@ function Products() {
             </button>
           </div>
         ) : (
-          <div className="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
-            {filteredProducts.map((product) => (
-              <div key={product.id} className="col">
-                <div className="product-luxury-card h-100">
-                  {/* Image Frame */}
-                  <div className="product-image-frame">
-                    <span className="product-badge">{product.category}</span>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="product-card-img"
-                    />
-                    <div className="product-card-overlay">
-                      <button
-                        onClick={() => handleBuyNow(product)}
-                        className="btn overlay-whatsapp-btn d-flex align-items-center gap-2"
-                      >
-                        <Whatsapp size={16} />
-                        Buy Now
-                      </button>
-                    </div>
-                  </div>
+        <div className="row g-4">
+  {filteredProducts.map((product) => (
+    <div
+      key={product.id}
+      className="col-12 col-sm-6 col-md-6 col-lg-3"
+    >
+      <div className="product-luxury-card h-100">
+        {/* Image Frame */}
+        <div className="product-image-frame">
+          <span className="product-badge">{product.category}</span>
 
-                  {/* Info Content */}
-                  <div className="product-info-block d-flex flex-column">
-                    <div className="d-flex justify-content-between align-items-start mb-2">
-                      <h4 className="product-card-title">{product.name}</h4>
-                      <div className="product-card-rating d-flex align-items-center gap-1">
-                        <StarFill className="star-icon" size={13} />
-                        <span>{product.rating.toFixed(1)}</span>
-                      </div>
-                    </div>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="product-card-img"
+            loading="lazy"
+          />
 
-                    <p className="product-card-desc">{product.description}</p>
-
-                    <div className="mt-auto pt-3 border-top-glow d-flex align-items-center justify-content-between">
-                      <span className="product-card-price">
-                        ₹{product.price.toLocaleString("en-IN")}
-                      </span>
-
-                      <div className="product-card-buttons d-flex gap-2">
-                        <button
-                          onClick={() => handleAddToCart(product)}
-                          className={`btn add-to-cart-card-btn d-flex align-items-center justify-content-center gap-2 ${
-                            addedItemIds[product.id] ? "added-success" : ""
-                          }`}
-                        >
-                          <BagPlus size={16} />
-                          {addedItemIds[product.id] ? "Added ✓" : "Add to Bag"}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="product-card-overlay">
+            <button
+              onClick={() => handleBuyNow(product)}
+              className="btn overlay-whatsapp-btn d-flex align-items-center gap-2"
+            >
+              <Whatsapp size={16} />
+              Buy Now
+            </button>
           </div>
+        </div>
+
+        {/* Product Info */}
+        <div className="product-info-block d-flex flex-column">
+          <div className="d-flex justify-content-between align-items-start mb-2">
+            <h4 className="product-card-title">{product.name}</h4>
+
+            <div className="product-card-rating d-flex align-items-center gap-1">
+              <StarFill className="star-icon" size={13} />
+              <span>{product.rating.toFixed(1)}</span>
+            </div>
+          </div>
+
+          <p className="product-card-desc">
+            {product.description}
+          </p>
+
+          <div className="mt-auto pt-3 border-top-glow d-flex align-items-center justify-content-between">
+            <span className="product-card-price">
+              ₹{product.price.toLocaleString("en-IN")}
+            </span>
+
+            <div className="product-card-buttons d-flex gap-2">
+              <button
+                onClick={() => handleAddToCart(product)}
+                className={`btn add-to-cart-card-btn d-flex align-items-center justify-content-center gap-2 ${
+                  addedItemIds[product.id] ? "added-success" : ""
+                }`}
+              >
+                <BagPlus size={16} />
+                {addedItemIds[product.id]
+                  ? "Added ✓"
+                  : "Add to Bag"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
         )}
       </section>
     </div>

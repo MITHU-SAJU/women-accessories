@@ -7,15 +7,17 @@ function Footer() {
     <footer className="footer-section">
       <div className="container">
         <div className="row gy-5">
-          <div className="col-lg-4">
-            <h2 className="footer-logo">JHUMKA</h2>
-            <p className="footer-about">
+          {/* Brand Info */}
+          <div className="col-lg-4 col-md-12 text-center text-lg-start">
+            <h2 className="footer-logo">Yaal's Elegance</h2>
+            <p className="footer-about mx-auto mx-lg-0">
               Celebrating heritage and elevating the modern woman through
               timeless splendor.
             </p>
           </div>
 
-          <div className="col-lg-2 col-md-4">
+          {/* Links: The House */}
+          <div className="col-lg-2 col-md-4 text-center text-lg-start">
             <h5>The House</h5>
             <ul>
               <li><Link to="/">Our Story</Link></li>
@@ -24,7 +26,8 @@ function Footer() {
             </ul>
           </div>
 
-          <div className="col-lg-2 col-md-4">
+          {/* Links: Client Care */}
+          <div className="col-lg-2 col-md-4 text-center text-lg-start">
             <h5>Client Care</h5>
             <ul>
               <li><Link to="/">Contact</Link></li>
@@ -33,19 +36,21 @@ function Footer() {
             </ul>
           </div>
 
-          <div className="col-lg-4 col-md-4">
-            <h5>Maison Jhumka</h5>
+          {/* Newsletter */}
+          <div className="col-lg-4 col-md-4 text-center text-lg-start">
+            <h5>Yaal's Elegance</h5>
             <p>Join our inner circle for exclusive previews.</p>
-            <div className="newsletter-box">
+            <div className="newsletter-box mx-auto mx-lg-0">
               <input type="email" placeholder="Email Address" aria-label="Email Address" />
               <button type="button">Join</button>
             </div>
           </div>
         </div>
 
-        <div className="footer-bottom">
-          <span>© 2026 JHUMKA</span>
-          <div className="footer-links">
+        {/* Footer Bottom */}
+        <div className="footer-bottom d-flex flex-column flex-lg-row justify-content-between align-items-center gap-3">
+          <span>© 2026 Yaal's Elegance</span>
+          <div className="footer-links d-flex justify-content-center gap-4">
             <Link to="/">Privacy</Link>
             <Link to="/">Terms</Link>
             <Link to="/">Accessibility</Link>

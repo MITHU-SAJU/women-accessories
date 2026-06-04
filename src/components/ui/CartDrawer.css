@@ -304,3 +304,31 @@
     width: 100vw;
   }
 }
+
+@media (max-width: 360px) {
+  .cart-drawer-header {
+    padding: 16px 20px;
+  }
+  .cart-drawer-body {
+    padding: 20px 16px;
+  }
+  .cart-item {
+    gap: 12px;
+  }
+  .cart-item-image {
+    width: 70px;
+    height: 70px;
+  }
+  .cart-item-actions {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .quantity-controller {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .delete-item-btn {
+    margin-left: 0 !important;
+  }
+}
