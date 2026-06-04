@@ -1,0 +1,256 @@
+/* Immersive Scroll Gallery CSS */
+
+.isg-container-height {
+  position: relative;
+  height: 220vh; /* Smooth scroll track */
+  background-color: #fcf9f8;
+  overflow: visible;
+}
+
+.isg-sticky-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.isg-motion-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Base Card Styles */
+.isg-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  pointer-events: auto;
+  box-shadow: 0 25px 60px rgba(116, 90, 52, 0.12);
+  border: 1px solid rgba(116, 90, 52, 0.06);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.isg-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Individual Card Positions (Mapping Tailwind classes to pure CSS) */
+.isg-card-pos-0 {
+  width: 28vw;
+  height: 28vh;
+  z-index: 10;
+}
+
+.isg-card-pos-1 {
+  width: 32vw;
+  height: 28vh;
+  transform: translate(6vw, -30vh);
+}
+
+.isg-card-pos-2 {
+  width: 18vw;
+  height: 50vh;
+  transform: translate(-26vw, -12vh);
+}
+
+.isg-card-pos-3 {
+  width: 24vw;
+  height: 24vh;
+  transform: translate(28vw, 0vh);
+}
+
+.isg-card-pos-4 {
+  width: 18vw;
+  height: 28vh;
+  transform: translate(4vw, 30vh);
+}
+
+.isg-card-pos-5 {
+  width: 26vw;
+  height: 24vh;
+  transform: translate(-23vw, 28vh);
+}
+
+.isg-card-pos-6 {
+  width: 15vw;
+  height: 15vh;
+  transform: translate(25vw, 24vh);
+}
+
+/* Center Card "Why Choose Us" Text Box Style */
+.isg-center-text-card {
+  background: #fbf8f5;
+  border: 1px solid rgba(116, 90, 52, 0.2);
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 30px 70px rgba(116, 90, 52, 0.18);
+}
+
+.isg-center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.isg-center-tag {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #c9a87c;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.isg-center-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: #745a34;
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+
+.isg-center-decorator {
+  width: 40px;
+  height: 1px;
+  background: #c9a87c;
+}
+
+/* Info Section (Core values fade-in content) */
+.isg-info-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+.wcu-content {
+  max-width: 900px;
+  padding: 40px;
+  background: rgba(252, 249, 248, 0.95);
+  border-radius: 24px;
+}
+
+.wcu-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #745a34;
+  font-weight: 600;
+  border-bottom: 1.5px solid #c9a87c;
+  padding-bottom: 6px;
+}
+
+.wcu-main-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  color: #1c1b1b;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.wcu-item {
+  position: relative;
+  padding-left: 55px;
+}
+
+.wcu-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #c9a87c;
+  font-weight: 600;
+  line-height: 1;
+  border-bottom: 1px solid rgba(201, 168, 124, 0.3);
+  padding-bottom: 2px;
+}
+
+.wcu-item-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: #745a34;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.wcu-item-desc {
+  font-size: 14.5px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+  .wcu-main-title {
+    font-size: 32px;
+  }
+  
+  .isg-card-pos-0 { width: 32vw; height: 26vh; }
+  .isg-card-pos-1 { width: 34vw; height: 26vh; transform: translate(5vw, -28vh); }
+  .isg-card-pos-2 { width: 22vw; height: 42vh; transform: translate(-26vw, -10vh); }
+  .isg-card-pos-3 { width: 26vw; height: 22vh; transform: translate(28vw, -2vh); }
+  .isg-card-pos-4 { width: 22vw; height: 26vh; transform: translate(4vw, 28vh); }
+  .isg-card-pos-5 { width: 28vw; height: 22vh; transform: translate(-23vw, 26vh); }
+  .isg-card-pos-6 { width: 18vw; height: 18vh; transform: translate(25vw, 22vh); }
+}
+
+@media (max-width: 768px) {
+  /* On small screens, hide the immersive animation and show static structured list of Core Values */
+  .isg-container-height {
+    height: auto;
+    padding: 80px 0;
+  }
+  
+  .isg-sticky-wrapper {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+  
+  .isg-motion-layer {
+    display: none !important;
+  }
+  
+  .isg-info-section {
+    position: relative;
+    height: auto;
+    opacity: 1 !important;
+    transform: none !important;
+    padding: 0 15px;
+  }
+  
+  .wcu-content {
+    background: transparent;
+    padding: 0;
+  }
+  
+  .wcu-main-title {
+    font-size: 28px;
+    margin-bottom: 40px !important;
+  }
+}

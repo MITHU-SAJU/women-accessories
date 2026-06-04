@@ -1,0 +1,358 @@
+/* Admin Authentication Layout (Dark Luxury Theme) */
+.admin-login-page {
+  background-color: #1a1715;
+  background-image: radial-gradient(circle at 50% 30%, #2d2621 0%, #1a1715 80%);
+  min-height: 100vh;
+}
+
+.admin-login-card {
+  width: 440px;
+  max-width: 90%;
+  background: rgba(36, 32, 29, 0.95);
+  border: 1px solid rgba(201, 168, 124, 0.18);
+  border-radius: 20px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+}
+
+.card-top-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #745a34, #c9a87c, #745a34);
+}
+
+.security-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(201, 168, 124, 0.08);
+  border: 1px solid rgba(201, 168, 124, 0.2);
+  color: #c9a87c;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  border-radius: 30px;
+}
+
+.admin-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  letter-spacing: 8px;
+  color: #c9a87c;
+  margin: 0;
+}
+
+.admin-subtitle {
+  color: #999;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Custom Input Groups for Luxury Feel */
+.input-group-luxury {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group-luxury label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #c9a87c;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper .input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #c9a87c;
+  font-size: 16px;
+}
+
+/* Dark Inputs for Login */
+.admin-login-page .input-wrapper input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  background: #2d2724;
+  border: 1px solid rgba(201, 168, 124, 0.2);
+  color: #ffffff;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.admin-login-page .input-wrapper input:focus {
+  border-color: #c9a87c;
+  background: #362e2a;
+  box-shadow: 0 0 0 3px rgba(201, 168, 124, 0.1);
+}
+
+.admin-login-page .input-wrapper input::placeholder {
+  color: #666;
+}
+
+.admin-submit-btn {
+  background: #745a34 !important;
+  color: #ffffff !important;
+  padding: 14px 20px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  border-radius: 8px !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.admin-submit-btn:hover:not(:disabled) {
+  background: #c9a87c !important;
+  color: #1a1715 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(201, 168, 124, 0.2) !important;
+}
+
+.admin-submit-btn:disabled {
+  opacity: 0.7;
+}
+
+.alert-danger-custom {
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  color: #ea868f;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.alert-success-custom {
+  background: rgba(25, 135, 84, 0.08);
+  border: 1px solid rgba(25, 135, 84, 0.25);
+  color: #75b798;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.credentials-helper {
+  color: #666;
+  font-size: 12px;
+  border-top: 1px solid rgba(201, 168, 124, 0.08);
+  padding-top: 20px;
+}
+
+.credentials-helper strong {
+  color: #c9a87c;
+}
+
+
+/* Admin Dashboard Styles */
+.admin-dashboard-page {
+  background: #fcf9f8;
+}
+
+.dashboard-header {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1.5px solid rgba(116, 90, 52, 0.08);
+}
+
+.dashboard-pill {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #c9a87c;
+  text-transform: uppercase;
+}
+
+.dashboard-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: #1c1b1b;
+  margin: 0;
+}
+
+.logout-btn {
+  background: transparent !important;
+  border: 1.5px solid #dc3545 !important;
+  color: #dc3545 !important;
+  padding: 10px 20px !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.logout-btn:hover {
+  background: #dc3545 !important;
+  color: #ffffff !important;
+}
+
+.admin-panel-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(116, 90, 52, 0.08);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(116, 90, 52, 0.01);
+}
+
+.panel-card-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #745a34;
+  margin: 0;
+}
+
+.panel-icon {
+  color: #c9a87c;
+}
+
+/* Light inputs for dashboard form */
+.admin-dashboard-page .input-group-luxury input,
+.admin-dashboard-page .input-group-luxury select,
+.admin-dashboard-page .input-group-luxury textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: #fcf9f8;
+  border: 1px solid rgba(116, 90, 52, 0.15);
+  color: #1c1b1b;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.admin-dashboard-page .input-group-luxury input:focus,
+.admin-dashboard-page .input-group-luxury select:focus,
+.admin-dashboard-page .input-group-luxury textarea:focus {
+  border-color: #745a34;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(116, 90, 52, 0.08);
+}
+
+.price-symbol {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #745a34;
+  font-size: 16px;
+}
+
+.price-input-wrapper input {
+  padding-left: 36px !important;
+}
+
+.form-tip {
+  font-size: 11px;
+}
+
+/* Catalog Table Styling */
+.luxury-table-container {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(116, 90, 52, 0.08);
+}
+
+.luxury-table {
+  margin-bottom: 0;
+}
+
+.luxury-table thead {
+  background: #f4efea;
+}
+
+.luxury-table th {
+  padding: 14px 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #745a34;
+  border-bottom: 1px solid rgba(116, 90, 52, 0.08);
+}
+
+.luxury-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(116, 90, 52, 0.05);
+}
+
+.table-img-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px 8px 0 0; /* Arched style */
+  overflow: hidden;
+  border: 1px solid rgba(116, 90, 52, 0.1);
+  background: #fcf9f8;
+}
+
+.table-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.table-product-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1c1b1b;
+  margin: 0 0 4px 0;
+}
+
+.table-product-category {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #c9a87c;
+  font-weight: 500;
+}
+
+.text-gold {
+  color: #745a34;
+}
+
+.delete-btn-table {
+  background: rgba(220, 53, 69, 0.05);
+  border: 1px solid rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.delete-btn-table:hover {
+  background: #dc3545;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+@media (max-width: 992px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 20px;
+  }
+}
